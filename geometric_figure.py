@@ -28,9 +28,9 @@ class Geometric_figure:
 class Triangle(Geometric_figure):
     __name = "Triangle"
 
-    def __init__(self, __name, sides):
+    def __init__(self, sides):
         if len(sides) == 3:
-            super().__init__(__name, sides, 3)
+            super().__init__(self.__name, sides, 3)
         else:
             raise RuntimeError("Количество сторон отлично от 3")
 
@@ -42,9 +42,10 @@ class Triangle(Geometric_figure):
 class Rectangle(Geometric_figure):
     __name = "Rectangle"
 
-    def __init__(self, __name, sides):
+    def __init__(self, sides):
         if len(sides) == 2:
-            super().__init__(__name, sides, 4)
+            name = "Square" if sides[0] == sides[1] else "Rectangle"
+            super().__init__(name, sides, 4)
         else:
             raise RuntimeError("Количество сторон отлично от 2")
 
@@ -55,19 +56,18 @@ class Rectangle(Geometric_figure):
 class Square(Rectangle):
     __name = "Square"
 
-    def __init__(self, __name, side):
-        super().__init__(__name, [side, side])
+    def __init__(self, side):
+        super().__init__([side, side])
 
 
 class Circle(Geometric_figure):
     __name = "Circle"
 
     def __init__(self, radius):
-        print(radius)
         super().__init__(self.__name, radius, 0)
 
     def get_area(self):
         return round(math.pi * (self.params ** 2), 1)
 
     def get_perimeter(self):
-        return 2 * math.pi * self.params
+        return round(2 * math.pi * self.params, 1)
