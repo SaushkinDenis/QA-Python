@@ -5,8 +5,7 @@ import pytest
                          [
                              (1, 1),
                              (100, 100)
-                         ]
-                         )
+                         ])
 def test_api_posts(api_client, input_id, output_id):
     result = api_client.get(path="/posts", params={'id': input_id}).json()
     assert result[0]['id'] == output_id
@@ -16,8 +15,7 @@ def test_api_posts(api_client, input_id, output_id):
                          [
                              ("et omnis dolorem", "Mallory_Kunze@marie.org"),
                              ("alias odio sit", "Lew@alysha.tv")
-                         ]
-                         )
+                         ])
 def test_api_comments(api_client, input_name, output_email):
     result = api_client.get(path="/comments", params={'name': input_name}).json()
     assert result[0]['email'] == output_email
@@ -42,6 +40,6 @@ def test_api_albums(api_client):
 
 def test_api_photos(api_client):
     result = api_client.get(path="/photos",
-                             params={'id': 5}
-                             ).json()
+                            params={'id': 5}
+                            ).json()
     assert result[0]['title'] == "natus nisi omnis corporis facere molestiae rerum in"

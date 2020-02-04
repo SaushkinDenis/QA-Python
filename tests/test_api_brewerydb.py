@@ -4,8 +4,7 @@ import pytest
 @pytest.mark.parametrize('input_city, input_state, input_number, output_country',
                          [
                              ("San Diego", "California", 88588882188, "United States")
-                         ]
-                         )
+                         ])
 def test_api_country(api_client, input_city, input_state, input_number, output_country):
     result = api_client.get(path="/breweries",
                             params={

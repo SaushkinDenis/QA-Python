@@ -4,26 +4,25 @@ import requests
 
 def pytest_addoption(parser):
     parser.addoption("--url", action="store", default="https://ya.ru", help="Request URL")
-    parser.addoption("--status_code", action="store", default="", help="Request status")
+    parser.addoption("--status_code", action="store", default=None, help="Request status")
 
 
 @pytest.fixture(scope="session")
 def api_client(request):
-    if request.config.getoption("--url") == "dog":
-        base_url = "https://dog.ceo/api"
-    elif request.config.getoption("--url") == "brewery":
-        base_url = "https://api.openbrewerydb.org"
-    elif request.config.getoption("--url") == "placeholder":
-        base_url = "https://jsonplaceholder.typicode.com"
-    elif request.config.getoption("--url") == "ya.ru":
-        base_url = "https://ya.ru"
-    else:
-        base_url = request.config.getoption('--url')
+    urls = {
+        "dog": "https://dog.ceo/api",
+        "brewery": "https://api.openbrewerydb.org",
+        "placeholder": "https://jsonplaceholder.typicode.com",
+        "ya.ru": "https://ya.ru"
+    }
 
-    if request.config.getoption("--status_code") != "":
-        base_status = request.config.getoption("--status_code").split("=")[1]
+    init = request.config.getoption("--url")
+    if init in urls:
+        base_url = urls.get(init)
     else:
-        base_status = None
+        base_url = init
+
+    base_status = request.config.getoption("--status_code")
     return APIClient(base_url, base_status)
 
 
