@@ -20,7 +20,7 @@ def api_client(request):
     if init in urls:
         base_url = urls.get(init)
     else:
-        base_url = init
+        base_url = "http://" + init
 
     base_status = request.config.getoption("--status_code")
     return APIClient(base_url, base_status)
