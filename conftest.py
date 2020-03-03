@@ -1,6 +1,6 @@
-import pyte
+import pytest
 from selenium import webdriver
-
+from selenium.webdriver.chrome.service import Service
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="safari", help="Web Browser")
@@ -14,7 +14,7 @@ def browser(request):
     elif browser == "chrome":
         op = webdriver.ChromeOptions()
         # op.add_argument("headless")
-        wd = webdriver.Chrome(executable_path="/Users/sauskindenis/Desktop/webdrivers/chromedriver.exec", options=op)
+        wd = webdriver.Chrome(executable_path='/Users/sauskindenis/Desktop/webdrivers/chromedriver', options=op)
     elif browser == "ie":
         op = webdriver.IeOptions()
         op.add_argument("headless")
@@ -28,4 +28,5 @@ def browser(request):
 
     wd.maximize_window()
     yield wd
+    wd.close()
     wd.quit()
