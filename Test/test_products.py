@@ -1,19 +1,57 @@
+import time
+
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def test_edit_elements_of_products(browser, waits):
-    url = 'https://demo.opencart.com/admin/index.php?route=catalog/' \
-          'product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'
-    locator_auth = "div.panel-body > form > div.text-right > button"
+from locators.locators import locators
 
-    driver = browser
-    wait = WebDriverWait(driver, waits)
+class Test_AdminPage():
 
-    driver.get(url)
-    element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, locator_auth)))
-    element.submit()
+    driver = None
 
-    locator_products = "#form-product > div > table > tbody"
-    locator_edit_product = "tr:nth-child(1) > td:nth-child(8) > a > i"
-    locator_flag_product = "tr:nth-child(1) > td:nth-child(1) > input[type='checkbox']"
+    def test_edit_product(self, browser, waits):
+        self.driver = browser
+        self.driver.get(locators.ListProductsPage.url['css'])
+
+        self._click(locators.AdminPage.selector_auth['css'])
+        self._click(locators.ListProductsPage.selector_edit_product_first['css'])
+
+        self._input(locators.ProductPage.selector_name_product['css'], "Apple Cinema 35\"")
+        self._click(locators.ProductPage.selector_text_product_style['css'])
+        self._click(locators.ProductPage.selector_text_product_style_blockquote['css'])
+        self._click(locators.ProductPage.selector_product_save['css'])
+
+        # self._click(locators.ListProductsPage.selector_edit_product_first['css'])
+
+        assert self._text(locators.ProductPage.selector_name_product['css']) == "Apple Cinema 35\""
+
+
+    def test_add_product(self, browser, waits):
+        self.driver = browser
+        self.driver.get(locators.ListProductsPage.url['css'])
+
+        self._click(locators.AdminPage.selector_auth['css'])
+
+
+    def test_del_product(self, browser, waits):
+        self.driver = browser
+        self.driver.get(locators.ListProductsPage.url['css'])
+
+        self._click(locators.AdminPage.selector_auth['css'])
+
+        
+
+
+    def __element(self, selector):
+        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+
+    def _click(self, selector):
+        ActionChains(self.driver).move_to_element(self.__element(selector)).click().perform()
+
+    def _input(self, selector, value="Example"):
+        self.__element(selector).send_keys(value)
+
+    def _text(self, selector):
+        return self.__element(selector).text
