@@ -35,7 +35,4 @@ class BasicCommand:
         return len(self.driver.find_elements_by_css_selector(selector))
 
     def _alert_accept(self):
-        # alert = Alert(self.driver)
-        # # self.driver.switchTo().alert().accept()
-        # alert.accept()
         WebDriverWait(self.driver, 10).until(ec.alert_is_present()).accept()
