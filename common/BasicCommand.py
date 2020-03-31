@@ -2,8 +2,6 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from locators.locators import locators
-from selenium.webdriver.common.alert import Alert
 
 
 class BasicCommand:
@@ -12,8 +10,6 @@ class BasicCommand:
 
     def __init__(self, browser):
         self.driver = browser
-        self.driver.get(locators.ListProductsPage.url['css'])
-        self._click(locators.AdminPage.selector_auth['css'])
 
     def __element(self, selector):
         return WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.CSS_SELECTOR, selector)))

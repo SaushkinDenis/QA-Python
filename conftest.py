@@ -6,25 +6,29 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="safari", help="Web Browser")
     parser.addoption("--wait", action="store", default="60", help="Set wait")
 
+
 @pytest.fixture
 def browser(request):
     browser = request.config.getoption("--browser")
     if browser == "safari":
-        wd = webdriver.Safari()
+        driver = webdriver.Safari()
     elif browser == "chrome":
         op = webdriver.ChromeOptions()
-        wd = webdriver.Chrome(executable_path='/Users/sauskindenis/Desktop/webdrivers/chromedriver', options=op)
+        driver = webdriver.Chrome(executable_path='/Users/sauskindenis/Desktop/webdrivers/chromedriver', options=op)
     elif browser == "firefox":
         op = webdriver.FirefoxOptions()
         op.add_argument("headless")
-        wd = webdriver.Firefox(options=op)
+        driver = webdriver.Firefox(options=op)
     else:
-        wd = webdriver.Safari()
+        driver = webdriver.Safari()
 
-    wd.maximize_window()
+    driver.maximize_window()
 
-    yield wd
-    wd.quit()
+    url = {'css': 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'}
+    driver.get(url['css'])
+
+    yield driver
+    driver.quit()
 
 
 @pytest.fixture
