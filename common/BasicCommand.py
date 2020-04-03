@@ -11,23 +11,27 @@ class BasicCommand:
     def __init__(self, browser):
         self.driver = browser
 
-    def __element(self, selector):
-        return WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+    def __get_element(self, selector, value=0):
+        if 'css' in selector.keys():
+            selector = selector['css']
+        WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+        return self.driver.find_elements_by_css_selector(selector)[value]
 
-    def _click(self, selector):
-        ActionChains(self.driver).move_to_element(self.__element(selector)).click().perform()
+    def _click(self, selector, value=0):
+        ActionChains(self.driver).move_to_element(self.__get_element(selector, value)).click().perform()
 
     def _input(self, selector, value="Example"):
-        self.__element(selector).send_keys(value)
+        self.__get_element(selector).send_keys(value)
 
-    def _text(self, selector):
-        return self.__element(selector).text
+    def _get_text(self, selector):
+        return self.__get_element(selector).text
 
     def _get_attribute(self, selector, attribute):
-        return self.__element(selector).get_attribute(attribute)
+        return self.__get_element(selector).get_attribute(attribute)
 
     def _get_len(self, selector):
-        self.__element(selector)
+        self.__get_element(selector)
+        selector = selector['css']
         return len(self.driver.find_elements_by_css_selector(selector))
 
     def _alert_accept(self):

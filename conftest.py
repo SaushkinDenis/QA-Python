@@ -14,7 +14,7 @@ def browser(request):
         driver = webdriver.Safari()
     elif browser == "chrome":
         op = webdriver.ChromeOptions()
-        driver = webdriver.Chrome(executable_path='/Users/sauskindenis/Desktop/webdrivers/chromedriver', options=op)
+        driver = webdriver.Chrome(executable_path='/chromedriver', options=op)
     elif browser == "firefox":
         op = webdriver.FirefoxOptions()
         op.add_argument("headless")
