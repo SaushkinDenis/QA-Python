@@ -2,22 +2,24 @@ from common.BasicCommand import BasicCommand
 
 
 class ProductPage(BasicCommand):
-    selector_name_product = {'css': "#input-name1"}
-    selector_product = {'css': "#language1 > div:nth-child(2) > div > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-style > div"}
-    selector_text_product_style = {'css': selector_product['css'] + " > button"}
-    selector_text_product_style_blockquote = {'css': selector_product['css'] + " > div > li:nth-child(4) > a"}
-    selector_product_save = {'css': "#content > div.page-header > div > div > button"}
+    FIELD_NAME_PRODUCT = {'css': "#input-name1"}
+    PRODUCT = {'css': "#language1 > div:nth-child(2) > div > div > div.note-toolbar.panel-heading > div.note-btn-group.btn-group.note-style > div"}
+    STYLE_TEXT_INFORMATION_PRODUCT = {'css': PRODUCT['css'] + " > button"}
+    STYLE_BLOCKQUOTE_TEXT_PRODUCT = {'css': PRODUCT['css'] + " > div > li:nth-child(4) > a"}
+    BUTTON_SAVE = {'css': "#content > div.page-header > div > div > button"}
 
     def edit_text_style_product(self):
-        self.waits(self.selector_text_product_style)
-        self._click(self.selector_text_product_style)
-        self._click(self.selector_text_product_style_blockquote)
+        self._click(self.STYLE_TEXT_INFORMATION_PRODUCT)
+        self._click(self.STYLE_BLOCKQUOTE_TEXT_PRODUCT)
+        return self
 
     def edit_name_product(self, value="Product#1"):
-        self._input(self.selector_name_product, value)
+        self._input(self.FIELD_NAME_PRODUCT, value)
+        return self
 
     def save_changes(self):
-        self._click(self.selector_product_save)
+        self._click(self.BUTTON_SAVE)
+        return self
 
     def get_name_product(self):
-        return self._get_attribute(self.selector_name_product, "value")
+        return self._get_attribute(self.FIELD_NAME_PRODUCT, "value")

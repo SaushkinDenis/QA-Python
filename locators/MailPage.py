@@ -2,22 +2,22 @@ from common.BasicCommand import BasicCommand
 
 
 class MailPage(BasicCommand):
-
-    selector_select_author = {'css': "#input-store > option"}
-    selector_open_select_to = {'css': "#input-to"}
-    selector_select_to = {'css': "#input-to > option"}
-    selector_subject = {'css': "#input-subject"}
-    subject_text = "SUB"
-    selector_message = {'css': "#content > div.container-fluid > div > div.panel-body > form > div:nth-child(8) > div > div > div.note-editing-area > div.note-editable.panel-body"}
-    message_text = "New message"
-    selector_send_mail_button = {'css': "#button-send"}
+    FIELD_AUTHOR = {'css': "#input-store > option"}
+    BUTTON_OPEN_SELECT_FROM = {'css': "#input-to"}
+    BUTTON_SELECT_TO = {'css': "#input-to > option"}
+    FIELD_SUBJECT = {'css': "#input-subject"}
+    TEXT_SUBJECT = "SUB"
+    FIELD_MESSAGE = {'css': "#content > div.container-fluid > div > div.panel-body > form > div:nth-child(8) > div > div > div.note-editing-area > div.note-editable.panel-body"}
+    TEXT_MESSAGE = "New message"
+    BUTTON_SEND_MAIL = {'css': "#button-send"}
 
     def create_mail(self):
-        self._click(self.selector_select_author)
-        self._click(self.selector_open_select_to)
-        self._click(self.selector_select_to, 3)
-        self._input(self.selector_subject, self.subject_text)
-        self._input(self.selector_message, self.message_text)
+        self._click(self.FIELD_AUTHOR)
+        self._click(self.BUTTON_OPEN_SELECT_FROM)
+        self._click(self.BUTTON_SELECT_TO, 3)
+        self._input(self.FIELD_SUBJECT, self.TEXT_SUBJECT)
+        self._input(self.FIELD_MESSAGE, self.TEXT_MESSAGE)
+        return self
 
     def send_message(self):
-        self._click(self.selector_send_mail_button)
+        self._click(self.BUTTON_SEND_MAIL)

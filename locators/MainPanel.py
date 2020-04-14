@@ -1,23 +1,28 @@
 from common.BasicCommand import BasicCommand
+from locators.CouponsPage import CouponsPage
+from locators.MailPage import MailPage
+from locators.ProductsPage import ProductsPage
 
 
 class MainPanel(BasicCommand):
 
-    selector_menu_catalog = {'css': "#menu-catalog > a"}
-    selector_menu_products = {'css': "#collapse1 > li:nth-child(2) > a"}
-    selector_menu_marketing = {'css': "#menu-marketing > a"}
-    selector_menu_marketing_mail = {'css': "#collapse38 > li:nth-child(3) > a"}
-    selector_marketing_coupons = {'css': "#collapse38 > li:nth-child(2) > a"}
+    MENU_CATALOG = {'css': "#menu-catalog > a"}
+    MENU_PRODUCTS = {'css': "#collapse1 > li:nth-child(2) > a"}
+    MENU_MARKETING = {'css': "#menu-marketing > a"}
+    MENU_MARKETING_MAIL = {'css': "#collapse38 > li:nth-child(3) > a"}
+    MENU_MARKETING_COUPONS = {'css': "#collapse38 > li:nth-child(2) > a"}
 
     def open_catalog(self):
-        self._click(self.selector_menu_catalog)
-        self._click(self.selector_menu_products)
-        return
+        self._click(self.MENU_CATALOG)
+        self._click(self.MENU_PRODUCTS)
+        return ProductsPage(self.driver)
 
     def open_mail(self):
-        self._click(self.selector_menu_marketing)
-        self._click(self.selector_menu_marketing_mail)
+        self._click(self.MENU_MARKETING)
+        self._click(self.MENU_MARKETING_MAIL)
+        return MailPage(self.driver)
 
     def open_coupons(self):
-        self._click(self.selector_menu_marketing)
-        self._click(self.selector_marketing_coupons)
+        self._click(self.MENU_MARKETING)
+        self._click(self.MENU_MARKETING_COUPONS)
+        return CouponsPage(self.driver)
