@@ -24,8 +24,8 @@ def browser(request):
 
     driver.maximize_window()
 
-    url = {'css': 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'}
-    driver.get(url['css'])
+    URL = 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'
+    driver.get(URL)
 
     yield driver
     driver.quit()

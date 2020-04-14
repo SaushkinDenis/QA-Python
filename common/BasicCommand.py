@@ -14,7 +14,8 @@ class BasicCommand:
     def __get_element(self, selector):
         if 'css' in selector.keys():
             selector = selector['css']
-        WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+        # WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CSS_SELECTOR, selector)))
         return self.driver.find_elements_by_css_selector(selector)
 
     def _click(self, selector, index=0):

@@ -18,8 +18,10 @@ class TestAdminPage:
             .first_product_selection() \
             .edit_name_product(self.TEXT_NEW_NAME_PRODUCT) \
             .edit_text_style_product() \
+            .import_image() \
             .save_changes()
 
+        time.sleep(3)
         MainPanel(browser) \
             .open_catalog() \
             .first_product_selection()
@@ -32,6 +34,7 @@ class TestAdminPage:
         ProductsPage(browser) \
             .add_product() \
             .edit_name_product() \
+            .import_image() \
             .save_changes()
         time.sleep(2)
         MainPanel(browser).open_catalog()
