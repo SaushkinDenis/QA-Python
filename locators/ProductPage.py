@@ -34,7 +34,7 @@ class ProductPage(BasicCommand):
     def get_name_product(self):
         return self._get_attribute(self.FIELD_NAME_PRODUCT, "value")
 
-    def import_image(self):
+    def upload_image(self):
         self._click(self.MENU_IMAGE)
         self._click(self.FIRST_IMAGE)
         self._click(self.BUTTON_EDIT_FIRST_IMAGE)
