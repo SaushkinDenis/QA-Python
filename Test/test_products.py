@@ -21,6 +21,7 @@ class TestAdminPage:
             .first_product_selection() \
             .edit_name_product(self.TEXT_NEW_NAME_PRODUCT) \
             .edit_text_style_product() \
+            .upload_image() \
             .save_changes()
 
         time.sleep(3)
@@ -88,7 +89,7 @@ class TestAdminPage:
         logger.info("\n Running " + __name__)
         AdminPage(browser).auth()
         MainPanel(browser) \
-            .open_coupons() \
+            .open_coupons()
 
         before_int = CouponsPage(browser).get_len_coupons()
         CouponsPage(browser)\
@@ -96,5 +97,8 @@ class TestAdminPage:
             .save_coupons()
 
         time.sleep(2)
+        MainPanel(browser) \
+            .open_coupons()
+
         assert CouponsPage(browser).get_len_coupons() - before_int == 1
         logger.info("Stopped " + __name__)

@@ -7,35 +7,10 @@ from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.support.abstract_event_listener import AbstractEventListener
 from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-f', "--file", default=None)
-args = parser.parse_args()
-logging.basicConfig(filename=args.file, level=logging.INFO)
-
-
-class Listener(AbstractEventListener):
-    logger = logging.getLogger("BasicCommands")
-
-    def after_navigate_to(self, url, browser):
-        self.logger.info(f"Opened URL: {url} \n")
-
-    def before_find(self, by, value, driver):
-        self.logger.info(f"Find element: '{value}' with '{by}'")
-
-    def after_click(self, element, driver):
-        self.logger.info(f"Clicked element. \n ")
-
-    def after_quit(self, driver):
-        self.logger.info(f"Finished test")
-
-    def on_exception(self, exception, driver):
-        self.logger.error(f'Exception: {exception}')
-        driver.save_screenshot(f'Test/Logs/exception ' + exception + '.png')
-
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Web Browser")
-    parser.addoption("--wait", action="store", default="60", help="Set wait")
+    parser.addoption("--wait", action="store", default="10", help="Set wait")
 
 
 @pytest.fixture
@@ -76,10 +51,33 @@ def browser(request):
     logger.info('Stopped driver')
 
 
-
 @pytest.fixture
 def waits(request):
     wait = request.config.getoption("--wait")
     return int(wait)
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-f', "--file", default=None)
+args = parser.parse_args()
+logging.basicConfig(filename=args.file, level=logging.INFO)
+
+
+class Listener(AbstractEventListener):
+    logger = logging.getLogger("BasicCommands")
+
+    def after_navigate_to(self, url, browser):
+        self.logger.info(f"Opened URL: {url} \n")
+
+    def before_find(self, by, value, driver):
+        self.logger.info(f"Find element: '{value}' with '{by}'")
+
+    def after_click(self, element, driver):
+        self.logger.info(f"Clicked element. \n ")
+
+    def after_quit(self, driver):
+        self.logger.info(f"Finished test")
+
+    def on_exception(self, exception, driver):
+        self.logger.error(f'Exception: {exception}')
+        driver.save_screenshot(f'{exception}.png')
