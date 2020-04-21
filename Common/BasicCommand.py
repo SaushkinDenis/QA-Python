@@ -19,8 +19,7 @@ class BasicCommand:
         return self.driver.find_elements_by_css_selector(selector)
 
     def _click(self, selector, index=0):
-        # ActionChains(self.driver).move_to_element(self.__get_element(selector)[index]).click().perform()
-        self.__get_element(selector)[index].click()
+        ActionChains(self.driver).move_to_element(self.__get_element(selector)[index]).click().perform()
 
     def _input(self, selector, value="Example", index=0):
         element = self.__get_element(selector)[index]

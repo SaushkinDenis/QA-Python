@@ -12,7 +12,7 @@ class CouponsPage(BasicCommand):
     BUTTON_SAVE = {'css': "#content > div.page-header > div > div > button"}
     LIST_COUPONS = {'css': "#form-coupon > div > table > tbody > tr"}
 
-    logger = logging.getLogger("CouponsPage")
+    logger = logging.getLogger(__name__)
 
     def create_coupons(self):
         self.logger.info("Create coupons")

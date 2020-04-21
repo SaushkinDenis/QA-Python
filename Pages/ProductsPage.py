@@ -6,7 +6,7 @@ from Pages.ProductPage import ProductPage
 
 class ProductsPage(BasicCommand):
     PRODUCT = {'css': "#form-product > div > table > tbody > tr:nth-child(1)"}
-    BUTTON_EDIT_PRODUCT_FIRST = {'css': PRODUCT['css'] + " > td:nth-child(8) > a > i"}    #dsfsddddddddddddddddd
+    BUTTON_EDIT_PRODUCT_FIRST = {'css': PRODUCT['css'] + " > td:nth-child(8) > a > i"}
     FLAG_FIRST_PRODUCT = {'css': PRODUCT['css'] + " > td:nth-child(1) > input[type='checkbox']"}
     BUTTONS = {'css': "#content > div.page-header > div > div"}
     BUTTON_ADD_PRODUCT = {'css': BUTTONS['css'] + " > a"}
@@ -15,7 +15,7 @@ class ProductsPage(BasicCommand):
     FILTER_NAME = {'css': "#input-name"}
     BUTTON_FILTER = {'css': "#button-filter"}
 
-    logger = logging.getLogger("ProductsPage")
+    logger = logging.getLogger(__name__)
 
     def first_product_selection(self):
         self.logger.info("Open first product")

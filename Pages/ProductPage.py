@@ -19,7 +19,7 @@ class ProductPage(BasicCommand):
     PATH_IMAGE = abspath("..") +"/Common/image.png"
     LOAD_NEW_IMAGE = {'css': "#filemanager > div > div.modal-body > div:nth-child(3) > div:nth-child(4) > a"}
 
-    logger = logging.getLogger("ProductPage")
+    logger = logging.getLogger(__name__)
 
     def edit_text_style_product(self):
         self.logger.info("Edit text style of product")

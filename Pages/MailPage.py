@@ -14,7 +14,7 @@ class MailPage(BasicCommand):
     TEXT_MESSAGE = "New message"
     BUTTON_SEND_MAIL = {'css': "#button-send"}
 
-    logger = logging.getLogger("MailPage")
+    logger = logging.getLogger(__name__)
 
     def create_mail(self):
         self.logger.info("Create mail")

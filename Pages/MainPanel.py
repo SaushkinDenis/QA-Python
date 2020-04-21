@@ -14,7 +14,7 @@ class MainPanel(BasicCommand):
     MENU_MARKETING_MAIL = {'css': "#collapse38 > li:nth-child(3) > a"}
     MENU_MARKETING_COUPONS = {'css': "#collapse38 > li:nth-child(2) > a"}
 
-    logger = logging.getLogger("MainPanel")
+    logger = logging.getLogger(__name__)
 
     def open_catalog(self):
         self.logger.info("Open catalog")
