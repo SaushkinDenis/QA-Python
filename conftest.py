@@ -1,6 +1,5 @@
 import argparse
 import logging
-
 import pytest
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
@@ -21,7 +20,7 @@ def browser(request):
     browser = request.config.getoption("--browser")
     if browser == "safari":
         driver = webdriver.Safari()
-        driver.maximize_window()
+
     elif browser == "chrome":
         desired = DesiredCapabilities.CHROME
         options = webdriver.ChromeOptions()
@@ -30,15 +29,17 @@ def browser(request):
         driver = EventFiringWebDriver(
             webdriver.Chrome(executable_path='Common/files/chromedriver', desired_capabilities=desired,
                              options=options), Listener())
+
     elif browser == "firefox":
         op = webdriver.FirefoxOptions()
         op.add_argument("headless")
         driver = webdriver.Firefox(options=op)
+
     else:
         driver = webdriver.Safari()
-        driver.maximize_window()
 
-    logger.info('\n Running ' + __name__)
+    driver.maximize_window()
+    logger.info('\n Running driver')
     URL = 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'
     driver.get(URL)
 
@@ -55,16 +56,43 @@ def browser(request):
 
 @pytest.fixture
 def remote(request):
-    browser = request.config.getoption("--browser")
-    executor = request.config.getoption("--executor")
-    driver = webdriver.Remote(command_executor=f"http://{executor}:4444/wd/hub",
-                              desired_capabilities={"browserName": "chrome"})
-    driver.maximize_window()
+    logger = logging.getLogger('Driver')
+    logger.info('\n Running driver')
 
+    # driver = get_remote_cloud()
+    driver = get_remote(request)
+
+    driver.maximize_window()
     URL = 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'
     driver.get(URL)
 
     request.addfinalizer(driver.quit)
+    logger.info('Stopped driver')
+    return driver
+
+
+def get_remote(request):
+    browser = request.config.getoption("--browser")
+    executor = request.config.getoption("--executor")
+    driver = webdriver.Remote(command_executor=f"http://{executor}:4444/wd/hub",
+                              desired_capabilities={"browserName": {browser}})
+
+    return driver
+
+
+def get_remote_cloud():
+    desired_cap = {
+        'browser': 'Chrome',
+        'browser_version': '81.0',
+        'os': 'Windows',
+        'os_version': '10',
+        'resolution': '1024x768',
+        'name': 'QA-Testing-[Python] Test'
+    }
+    driver = webdriver.Remote(
+        command_executor='http://kerryyos1:########.browserstack.com/wd/hub',
+        desired_capabilities=desired_cap)
+
     return driver
 
 
@@ -78,7 +106,7 @@ def waits(request):
 # parser.add_argument('-f', "--file", default=None)
 # args = parser.parse_args()
 # logging.basicConfig(filename=args.file, level=logging.INFO)
-logging.basicConfig(filename="text.txt", level=logging.INFO)
+logging.basicConfig(filename=None, level=logging.INFO)
 
 
 class Listener(AbstractEventListener):
