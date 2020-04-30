@@ -61,7 +61,21 @@ def remote(request):
     logger.info('\n Running driver')
 
     # driver = get_remote_cloud()
-    driver = get_remote(request)
+    # driver = get_remote(request)
+
+    browser = request.config.getoption("--browser")
+    executor = request.config.getoption("--executor")
+    capabilities = {
+        "browserName": "chrome",
+        "version": "81.0",
+        "enableVNC": True,
+        "enableVideo": False
+    }
+    # selenoid = request.config.getoption("--selenoid")
+    driver = webdriver.Remote(
+        command_executor="http://192.168.99.101:4444/wd/hub",
+        desired_capabilities=capabilities)
+
 
     driver.maximize_window()
     URL = 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'

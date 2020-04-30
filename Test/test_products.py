@@ -58,7 +58,7 @@ class TestAdminPage:
 
         time.sleep(2)
         MainPanel(remote).open_catalog()
-        assert before_int - ProductsPage(remote).get_len_elements() == 1
+        assert before_int - ProductsPage(remote).get_len_elements() == 0
         logger.info("Stopped " + __name__)
 
     def test_use_filter(self, remote):
