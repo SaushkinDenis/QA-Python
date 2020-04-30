@@ -11,7 +11,8 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Web Browser",
                      choices=["chrome", "firefox", "safari"])
     parser.addoption("--wait", action="store", default="10", help="Set wait")
-    parser.addoption("--executor", action="store", default="192.168.1.4")
+    parser.addoption("--executor", action="store", default="192.168.99.101")
+    parser.addoption("--selenoid", default=True)
 
 
 @pytest.fixture
@@ -74,6 +75,7 @@ def remote(request):
 def get_remote(request):
     browser = request.config.getoption("--browser")
     executor = request.config.getoption("--executor")
+    # selenoid = request.config.getoption("--selenoid")
     driver = webdriver.Remote(command_executor=f"http://{executor}:4444/wd/hub",
                               desired_capabilities={"browserName": {browser}})
 
