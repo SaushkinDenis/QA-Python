@@ -11,7 +11,7 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Web Browser",
                      choices=["chrome", "firefox", "safari"])
     parser.addoption("--wait", action="store", default="10", help="Set wait")
-    parser.addoption("--executor", action="store", default="192.168.99.101")
+    parser.addoption("--executor", action="store", default="localhost")
     parser.addoption("--selenoid", default=True)
 
 
@@ -60,21 +60,22 @@ def remote(request):
     logger = logging.getLogger('Driver')
     logger.info('\n Running driver')
 
-    # driver = get_remote_cloud()
-    # driver = get_remote(request)
-
     browser = request.config.getoption("--browser")
     executor = request.config.getoption("--executor")
+    selenoid = request.config.getoption("--selenoid")
     capabilities = {
-        "browserName": "chrome",
-        "version": "81.0",
+        "browserName": browser,
         "enableVNC": True,
         "enableVideo": False
     }
-    # selenoid = request.config.getoption("--selenoid")
-    driver = webdriver.Remote(
-        command_executor="http://192.168.99.101:4444/wd/hub",
-        desired_capabilities=capabilities)
+
+    if selenoid:
+        executor = "192.168.99.101"
+        driver = webdriver.Remote(
+            command_executor=f"http://{executor}:4444/wd/hub",
+            desired_capabilities=capabilities)
+    else:
+        driver = webdriver.Chrome()
 
 
     driver.maximize_window()
@@ -83,32 +84,6 @@ def remote(request):
 
     request.addfinalizer(driver.quit)
     logger.info('Stopped driver')
-    return driver
-
-
-def get_remote(request):
-    browser = request.config.getoption("--browser")
-    executor = request.config.getoption("--executor")
-    # selenoid = request.config.getoption("--selenoid")
-    driver = webdriver.Remote(command_executor=f"http://{executor}:4444/wd/hub",
-                              desired_capabilities={"browserName": {browser}})
-
-    return driver
-
-
-def get_remote_cloud():
-    desired_cap = {
-        'browser': 'Chrome',
-        'browser_version': '81.0',
-        'os': 'Windows',
-        'os_version': '10',
-        'resolution': '1024x768',
-        'name': 'QA-Testing-[Python] Test'
-    }
-    driver = webdriver.Remote(
-        command_executor='http://kerryyos1:########.browserstack.com/wd/hub',
-        desired_capabilities=desired_cap)
-
     return driver
 
 
