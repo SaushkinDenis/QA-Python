@@ -12,12 +12,17 @@ class TestAdminPage:
     TEXT_NEW_NAME_PRODUCT = "Apple Cinema 30\""
     TEXT_FILTER_SEARCH = "Ipod"
 
-    def test_edit_product(self, remote):
+    def test_tes(self):
+        assert 1 == 2
+
+
+    def test_edit_product(self, remote_browser):
+        browser = remote_browser
         logger = logging.getLogger(__name__)
         logger.info("\nRunning " + __name__)
-        AdminPage(remote).auth()
+        AdminPage(browser).auth()
 
-        ProductsPage(remote) \
+        ProductsPage(browser) \
             .first_product_selection() \
             .edit_name_product(self.TEXT_NEW_NAME_PRODUCT) \
             .edit_text_style_product() \
@@ -25,10 +30,10 @@ class TestAdminPage:
             .save_changes()
 
         time.sleep(3)
-        MainPanel(remote) \
+        MainPanel(browser) \
             .open_catalog() \
             .first_product_selection()
-        assert ProductPage(remote).get_name_product() == self.TEXT_NEW_NAME_PRODUCT
+        assert ProductPage(browser).get_name_product() == self.TEXT_NEW_NAME_PRODUCT
         logger.info("Stopped " + __name__)
 
     def test_add_product(self, remote):

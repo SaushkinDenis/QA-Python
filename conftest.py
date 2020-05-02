@@ -12,11 +12,11 @@ def pytest_addoption(parser):
                      choices=["chrome", "firefox", "safari"])
     parser.addoption("--wait", action="store", default="10", help="Set wait")
     parser.addoption("--executor", action="store", default="localhost")
-    parser.addoption("--selenoid", default=True)
+    parser.addoption("--selenoid", default=False)
 
 
 @pytest.fixture
-def browser(request):
+def browser_with_listner(request):
     logger = logging.getLogger('Driver')
     browser = request.config.getoption("--browser")
     if browser == "safari":
@@ -28,7 +28,7 @@ def browser(request):
         options.add_experimental_option('w3c', False)
         desired['loggingPrefs'] = {'performance': 'ALL', 'browser': 'ALL'}
         driver = EventFiringWebDriver(
-            webdriver.Chrome(executable_path='Common/files/chromedriver', desired_capabilities=desired,
+            webdriver.Chrome(executable_path='../Common/files/chromedriver', desired_capabilities=desired,
                              options=options), Listener())
 
     elif browser == "firefox":
@@ -56,13 +56,13 @@ def browser(request):
 
 
 @pytest.fixture
-def remote(request):
+def remote_browser(request):
     logger = logging.getLogger('Driver')
     logger.info('\n Running driver')
 
     browser = request.config.getoption("--browser")
-    executor = request.config.getoption("--executor")
     selenoid = request.config.getoption("--selenoid")
+
     capabilities = {
         "browserName": browser,
         "enableVNC": True,
@@ -75,8 +75,7 @@ def remote(request):
             command_executor=f"http://{executor}:4444/wd/hub",
             desired_capabilities=capabilities)
     else:
-        driver = webdriver.Chrome()
-
+        driver = webdriver.Chrome(executable_path='../Common/files/chromedriver')
 
     driver.maximize_window()
     URL = 'https://demo.opencart.com/admin/index.php?route=catalog/product&user_token=vfru3mBkQg3TPmtnnD9wSBYYA8wCVXST'
