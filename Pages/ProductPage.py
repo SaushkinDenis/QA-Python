@@ -2,6 +2,8 @@ import logging
 import time
 from os.path import abspath
 
+import allure
+
 from Common.BasicCommand import BasicCommand
 
 
@@ -21,17 +23,20 @@ class ProductPage(BasicCommand):
 
     logger = logging.getLogger(__name__)
 
+    @allure.step("Редактирование стиля описания ")
     def edit_text_style_product(self):
         self.logger.info("Edit text style of product")
         self._click(self.STYLE_TEXT_INFORMATION_PRODUCT)
         self._click(self.STYLE_BLOCKQUOTE_TEXT_PRODUCT)
         return self
 
+    @allure.step("Редактирование имя продукта")
     def edit_name_product(self, value="Product#1"):
         self.logger.info("Edit name product")
         self._input(self.FIELD_NAME_PRODUCT, value)
         return self
 
+    @allure.step("Сохранение")
     def save_changes(self):
         self.logger.info("Save changes")
         self._click(self.BUTTON_SAVE)
@@ -40,6 +45,7 @@ class ProductPage(BasicCommand):
     def get_name_product(self):
         return self._get_attribute(self.FIELD_NAME_PRODUCT, "value")
 
+    @allure.step("Вставка фото")
     def upload_image(self):
         self.logger.info("Upload image")
         self._click(self.MENU_IMAGE)

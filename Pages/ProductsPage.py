@@ -1,5 +1,7 @@
 import logging
 
+import allure
+
 from Common.BasicCommand import BasicCommand
 from Pages.ProductPage import ProductPage
 
@@ -17,6 +19,7 @@ class ProductsPage(BasicCommand):
 
     logger = logging.getLogger(__name__)
 
+    @allure.step("Выбор продукта")
     def first_product_selection(self):
         self.logger.info("Open first product")
         self._click(self.BUTTON_EDIT_PRODUCT_FIRST)
@@ -25,11 +28,13 @@ class ProductsPage(BasicCommand):
     def get_len_elements(self):
         return self._get_len(self.LIST_PRODUCTS)
 
+    @allure.step("Добавление")
     def add_product(self):
         self.logger.info("Add product")
         self._click(self.BUTTON_ADD_PRODUCT)
         return ProductPage(self.driver)
 
+    @allure.step("Удаление")
     def del_product(self):
         self.logger.info("Delete product")
         self._click(self.FLAG_FIRST_PRODUCT)
@@ -41,6 +46,7 @@ class ProductsPage(BasicCommand):
         self._input(self.FILTER_NAME, value)
         return self
 
+    @allure.step("Активация фильтра")
     def active_filter(self):
         self._click(self.BUTTON_FILTER)
         return self

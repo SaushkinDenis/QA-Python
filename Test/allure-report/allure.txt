@@ -1,1 +1,2 @@
 # Common/files/allure-2.13.3/bin/allure serve Test/allure-report/
+# export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin

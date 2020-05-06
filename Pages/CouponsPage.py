@@ -1,5 +1,7 @@
 import logging
 
+import allure
+
 from Common.BasicCommand import BasicCommand
 
 
@@ -14,6 +16,7 @@ class CouponsPage(BasicCommand):
 
     logger = logging.getLogger(__name__)
 
+    @allure.step("Создание")
     def create_coupons(self):
         self.logger.info("Create coupons")
         self._click(self.BUTTON_ADD_COUPONS)
@@ -22,6 +25,7 @@ class CouponsPage(BasicCommand):
         self._click(self.BUTTON_COSTUMER_LOGIN)
         return self
 
+    @allure.step("Сохранение")
     def save_coupons(self):
         self.logger.info("Save coupons")
         self._click(self.BUTTON_SAVE)

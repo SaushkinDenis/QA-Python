@@ -1,5 +1,7 @@
 import logging
 
+import allure
+
 from Common.BasicCommand import BasicCommand
 
 
@@ -16,6 +18,7 @@ class MailPage(BasicCommand):
 
     logger = logging.getLogger(__name__)
 
+    @allure.step("Создание")
     def create_mail(self):
         self.logger.info("Create mail")
         self._click(self.FIELD_AUTHOR)
@@ -25,6 +28,7 @@ class MailPage(BasicCommand):
         self._input(self.FIELD_MESSAGE, self.TEXT_MESSAGE)
         return self
 
+    @allure.step("Отправка")
     def send_message(self):
         self.logger.info("Send mail")
         self._click(self.BUTTON_SEND_MAIL)
