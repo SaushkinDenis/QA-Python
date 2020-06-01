@@ -1,7 +1,9 @@
 import sqlite3
 
-DB = "DB/SQLite.sqlite"
+import mysql.connector
 
+DB = "DB/SQLite.sqlite"
+DB = ""
 
 class Sqlite:
     def __init__(self, file):
@@ -9,8 +11,17 @@ class Sqlite:
         self.connection = sqlite3.connect(self.db, timeout=10)
 
 
-def __connect_sql():
-    return Sqlite(DB)
+class MySQL:
+    def __init__(self):
+        self.connection = mysql.connector.connect(user='root', password='root', host='0.0.0.0', port='3306')
+
+
+def __connect_sql(sql="Sqlite"):
+    if sql == "Sqlite":
+        return Sqlite(DB)
+    elif sql == "MySql":
+        return MySQL()
+
 
 
 def __close_connect_sql():

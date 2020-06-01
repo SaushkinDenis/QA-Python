@@ -6,11 +6,18 @@ from Pages.CouponsPage import CouponsPage
 from Pages.MainPanel import MainPanel
 from Pages.ProductPage import ProductPage
 from Pages.ProductsPage import ProductsPage
+from Test import connector
 
 
 class TestAdminPage:
     TEXT_NEW_NAME_PRODUCT = "Apple Cinema 30\""
     TEXT_FILTER_SEARCH = "Ipod"
+
+    Products = {
+        "name": "Products",
+        "title": "",
+        "default_value": ""
+    }
 
     def test_edit_product(self, remote):
         logger = logging.getLogger(__name__)
@@ -29,12 +36,14 @@ class TestAdminPage:
             .open_catalog() \
             .first_product_selection()
         assert ProductPage(remote).get_name_product() == self.TEXT_NEW_NAME_PRODUCT
+        assert self.TEXT_NEW_NAME_PRODUCT == connector.get_param_row(self.Products, "NameProduct", "Brand", "Apple").fetchone()[0]
         logger.info("Stopped " + __name__)
 
     def test_add_product(self, remote):
         logger = logging.getLogger(__name__)
         logger.info("\nRunning " + __name__)
         AdminPage(remote).auth()
+        current_count = connector.get_count_row(self.Products)
 
         before_int = ProductsPage(remote).get_len_elements()
         ProductsPage(remote) \
@@ -46,12 +55,14 @@ class TestAdminPage:
         time.sleep(2)
         MainPanel(remote).open_catalog()
         assert ProductsPage(remote).get_len_elements() - before_int == 1
+        assert connector.get_count_row(self.Products) - current_count == 1
         logger.info("Stopped " + __name__)
 
     def test_del_product(self, remote):
         logger = logging.getLogger(__name__)
         logger.info("\n Running " + __name__)
         AdminPage(remote).auth()
+        current_count = connector.get_count_row(self.Products)
 
         before_int = ProductsPage(remote).get_len_elements()
         ProductsPage(remote).del_product()
@@ -59,6 +70,7 @@ class TestAdminPage:
         time.sleep(2)
         MainPanel(remote).open_catalog()
         assert before_int - ProductsPage(remote).get_len_elements() == 1
+        assert current_count - connector.get_count_row(self.Products) == 1
         logger.info("Stopped " + __name__)
 
     def test_use_filter(self, remote):
